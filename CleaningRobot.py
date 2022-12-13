@@ -62,14 +62,17 @@ class CleaningRobot:
         """
         Initializes the robot in the starting position (0,0,N)
         """
-        pass
+        self.pos_x = 0
+        self.pos_y = 0
+        self.facing = "N"
 
     def robot_status(self) -> str:
         """
         Returns the current status of the robot, as well as any obstacle encountered
         :return: the status of the robot as a string
         """
-        pass
+        #current_state = str(self.pos_x) + str(self.pos_y) + self.facing
+        #return current_state
 
     def execute_command(self, command: str) -> str:
         """
@@ -103,7 +106,17 @@ class CleaningRobot:
         the robot turns on the recharging led and shuts off the cleaning system.
         Otherwise, the robot turns on the cleaning system and turns off the recharge LED.
         """
-        pass
+        if GPIO.input(self.BATTERY_PIN) <= 10:
+            GPIO.output(self.RECHARGE_LED_PIN, GPIO.HIGH)
+            GPIO.output(self.CLEANING_SYSTEM_PIN, GPIO.LOW)
+            self.battery_led_on = 1
+            self.cleaning_system_on = 0
+
+        else:
+            GPIO.output(self.RECHARGE_LED_PIN, GPIO.LOW)
+            GPIO.output(self.CLEANING_SYSTEM_PIN, GPIO.HIGH)
+            self.battery_led_on = 0
+            self.cleaning_system_on = 1
 
     def activate_wheel_motor(self) -> None:
         """
